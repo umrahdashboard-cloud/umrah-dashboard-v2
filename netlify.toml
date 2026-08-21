@@ -2,7 +2,7 @@
   command = "npm run build"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
   NPM_FLAGS = "--legacy-peer-deps"
   # Use npm (package-lock.json) — avoid pnpm frozen-lockfile failures on Netlify
   NETLIFY_USE_PNPM = "false"
