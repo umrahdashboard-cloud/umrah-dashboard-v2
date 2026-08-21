@@ -4,6 +4,8 @@
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
+  # Use npm (package-lock.json) — avoid pnpm frozen-lockfile failures on Netlify
+  NETLIFY_USE_PNPM = "false"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
