@@ -100,7 +100,7 @@ export function Sidebar({ role, displayName }: { role: Role; displayName: string
     <div className="flex h-full flex-col py-5">
       <div className={cn('mb-6 flex items-center transition-all duration-300 ease-in-out', collapsed ? 'pl-[22px]' : 'pl-6')}>
         <div className="flex items-center">
-          <span className="flex h-10 w-10 p-1 items-center justify-center rounded-full btn-white shadow-md border-2 border-primary/60 flex-shrink-0">
+          <span className="flex h-10 w-10 p-0 items-center justify-center rounded-full btn-white shadow-md border-2 border-primary/60 flex-shrink-0">
           <img src="logo-crm.png" alt="Umrah Dashboard" className="h-full w-full object-contain" />
           </span>
           <div className={cn(

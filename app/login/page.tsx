@@ -36,7 +36,7 @@ export default function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-background p-6">
       <div className="w-full max-w-[420px]">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary/60 bg-card p-2 shadow-md">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary/60 bg-card p-0 shadow-md">
             <img src="/logo-crm.png" alt="Umrah Dashboard" className="h-full w-full object-contain" />
           </div>
           <h1 className="font-heading text-2xl font-semibold tracking-tight">Umrah Dashboard</h1>
