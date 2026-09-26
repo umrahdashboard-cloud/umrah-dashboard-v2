@@ -31,7 +31,7 @@ export function ZiaratClient({ ziarats }: { ziarats: Ziarat[] }) {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <PageHeader
-        title="Ziarat Master"
+        title="Ziarat Settings"
         subtitle="Per-pax SAR rates for ziarat sites"
         actions={
           <GlassButton onClick={() => setEditing(EMPTY)}>

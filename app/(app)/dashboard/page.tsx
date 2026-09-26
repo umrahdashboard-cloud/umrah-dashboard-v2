@@ -1,19 +1,12 @@
 import { requireSession } from '@/lib/auth'
-import { createClient } from '@/lib/supabase/server'
 import { store } from '@/lib/demo-store'
-import { mergeBookings, mergePayments } from '@/lib/bookings-persistence'
+import { fetchMergedBookingsAndPayments } from '@/lib/bookings-persistence'
 import { sumActivePayments } from '@/lib/payment-utils'
 import { DashboardClient } from './dashboard-client'
 
 export default async function DashboardPage() {
   const session = await requireSession()
-  const supabase = await createClient()
-
-  const { data: bookingsData } = await supabase.from('bookings').select('*')
-  const { data: paymentsData } = await supabase.from('payments').select('*')
-
-  const bookings = mergeBookings(bookingsData ?? [])
-  const payments = mergePayments(paymentsData ?? [])
+  const { bookings, payments } = await fetchMergedBookingsAndPayments()
 
   const totalRevenue = bookings.reduce((s, b) => s + b.total_pkr, 0) +
     store.invoices.reduce((s, v) => s + v.total_pkr, 0)

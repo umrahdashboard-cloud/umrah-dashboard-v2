@@ -35,7 +35,8 @@ export async function login(_prev: { error?: string } | null, formData: FormData
   // sameSite must be 'none' (+ secure) so the cookie survives inside the
   // embedded preview iframe, which browsers treat as a third-party context
   // and would otherwise drop Lax cookies on navigation.
-  jar.set(SESSION_COOKIE, encodeSession({ userId: user.id, role: user.role, displayName: user.display_name }), {
+  const { normalizeRole } = await import('./roles')
+  jar.set(SESSION_COOKIE, encodeSession({ userId: user.id, role: normalizeRole(user.role), displayName: user.display_name }), {
     httpOnly: true, sameSite: 'none', secure: true, path: '/', maxAge: 60 * 60 * 24 * 7,
   })
   redirect('/dashboard')

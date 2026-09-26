@@ -38,7 +38,8 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  if (WRITE_ONLY.some((p) => pathname.startsWith(p)) && !WRITE_ROLES.includes(session.role)) {
+  const role = session.role === 'manager' ? 'moderator' : session.role
+  if (WRITE_ONLY.some((p) => pathname.startsWith(p)) && !WRITE_ROLES.includes(role)) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 

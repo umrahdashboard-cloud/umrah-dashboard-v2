@@ -91,9 +91,9 @@ export function AppearanceClient() {
           <button
             onClick={() => theme === 'dark' && toggleTheme()}
             className={cn(
-              'flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors',
+              'flex items-center gap-2 rounded-lg cursor-pointer border px-4 py-2.5 text-sm transition-colors',
               theme === 'light'
-                ? 'border-primary/60 bg-accent text-accent-foreground'
+                ? 'border-primary/60 bg-accent  text-accent-foreground'
                 : 'border-border text-muted-foreground hover:text-foreground',
             )}
             aria-pressed={theme === 'light'}
@@ -104,7 +104,7 @@ export function AppearanceClient() {
           <button
             onClick={() => theme === 'light' && toggleTheme()}
             className={cn(
-              'flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm transition-colors',
+              'flex items-center gap-2 rounded-lg border cursor-pointer px-4 py-2.5 text-sm transition-colors',
               theme === 'dark'
                 ? 'border-primary/60 bg-accent text-accent-foreground'
                 : 'border-border text-muted-foreground hover:text-foreground',
@@ -132,7 +132,7 @@ export function AppearanceClient() {
                 onClick={() => setColorTheme(t.id)}
                 aria-pressed={selected}
                 className={cn(
-                  'glass group relative rounded-xl p-5 text-left transition-all hover:-translate-y-0.5',
+                  'glass group cursor-pointer relative rounded-xl p-5 text-left transition-all hover:-translate-y-0.5',
                   selected && 'ring-2 ring-primary border-primary/40',
                 )}
               >
@@ -143,9 +143,9 @@ export function AppearanceClient() {
                 )}
 
                 {/* Swatch preview */}
-                <div className="mb-4 flex items-center gap-2">
+                <div className="mb-4 flex  items-center gap-2">
                   <span
-                    className="h-10 w-10 rounded-lg border border-border"
+                    className="h-10 w-10 rounded-lg  border border-border"
                     style={{ background: t.primary }}
                     aria-hidden
                   />

@@ -191,7 +191,7 @@ export function QuotePreview({
         <section className="hero-price">
           <div className="hero-inner">
             <div>
-              <span className="hero-label">Total Selling Price</span>
+              <span className="hero-label">Total Package Price</span>
               <div className="hero-amount mono">{fmtPKR(cost.total_selling_pkr || 0)}</div>
             </div>
             <div className="hero-divider" aria-hidden="true" />
@@ -207,11 +207,11 @@ export function QuotePreview({
           <div className="payment-grid">
             <div className="payment-cell">
               <span className="label">Advance Paid</span>
-              <span className="amount mono">PKR 0</span>
+              <span className="amount mono">{fmtPKR(cost.advance_pkr || 0)}</span>
             </div>
             <div className="payment-cell remaining">
               <span className="label">Remaining Balance</span>
-              <span className="amount mono">{fmtPKR(cost.total_selling_pkr || 0)}</span>
+              <span className="amount mono">{fmtPKR(Math.max(0, cost.remaining_pkr ?? cost.total_selling_pkr - (cost.advance_pkr || 0)))}</span>
             </div>
           </div>
         </section>

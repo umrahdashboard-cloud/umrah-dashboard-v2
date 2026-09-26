@@ -7,12 +7,13 @@ import {
   LayoutDashboard, Calculator, BookOpen, FileText, Wallet,
   Receipt, TicketCheck, Settings, LogOut, Plane, Menu, X, Moon, Sun, ChevronLeft, ChevronRight,
 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import { cn } from '@/lib/utils'
 import { logout } from '@/lib/actions'
 import { useTheme } from './theme-provider'
 import { useSidebar } from './sidebar-context'
 import { Toggle } from './glass'
+import { normalizeRole, roleLabel } from '@/lib/roles'
 import type { Role } from '@/lib/types'
 
 const NAV = [
@@ -31,7 +32,15 @@ export function Sidebar({ role, displayName }: { role: Role; displayName: string
   const [open, setOpen] = useState(false)
   const { collapsed, setCollapsed } = useSidebar()
   const { theme, toggleTheme } = useTheme()
-  const items = NAV.filter((n) => (n.roles as readonly string[]).includes(role))
+  const [signingOut, startSignOut] = useTransition()
+  const effectiveRole = normalizeRole(role)
+  const items = NAV.filter((n) => (n.roles as readonly string[]).includes(effectiveRole))
+
+  const handleSignOut = () => {
+    startSignOut(async () => {
+      await logout()
+    })
+  }
 
   useEffect(() => {
     setPendingHref(null)
@@ -91,8 +100,8 @@ export function Sidebar({ role, displayName }: { role: Role; displayName: string
     <div className="flex h-full flex-col py-5">
       <div className={cn('mb-6 flex items-center transition-all duration-300 ease-in-out', collapsed ? 'pl-[22px]' : 'pl-6')}>
         <div className="flex items-center">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full btn-gradient flex-shrink-0">
-            <Plane className="h-4.5 w-4.5 text-white" aria-hidden />
+          <span className="flex h-10 w-10 p-1 items-center justify-center rounded-full btn-white shadow-md border-2 border-primary/60 flex-shrink-0">
+          <img src="logo-crm.png" alt="Umrah Dashboard" className="h-full w-full object-contain" />
           </span>
           <div className={cn(
             'transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
@@ -122,7 +131,7 @@ export function Sidebar({ role, displayName }: { role: Role; displayName: string
             collapsed ? 'max-w-0 opacity-0 pointer-events-none' : 'max-w-[200px] opacity-100'
           )}>
             <p className="text-sm font-medium leading-tight">{displayName}</p>
-            <p className="text-[11px] capitalize text-muted-foreground mt-0.5">{role}</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">{roleLabel(role)}</p>
           </div>
           <button
             onClick={toggleTheme}
@@ -133,20 +142,37 @@ export function Sidebar({ role, displayName }: { role: Role; displayName: string
             {theme === 'dark' ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
           </button>
         </div>
-        <form action={logout} className={cn(
+        <div className={cn(
           'transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden mt-3',
           collapsed ? 'max-w-0 opacity-0 pointer-events-none mt-0' : 'max-w-[200px] opacity-100'
         )}>
-          <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-danger transition-colors cursor-pointer">
+          <button
+            type="button"
+            onClick={handleSignOut}
+            disabled={signingOut}
+            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-danger transition-colors cursor-pointer disabled:opacity-50"
+          >
             <LogOut className="h-3.5 w-3.5" aria-hidden /> Sign out
           </button>
-        </form>
+        </div>
       </div>
     </div>
   )
 
   return (
     <>
+      {signingOut && (
+        <div
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 bg-background/85 backdrop-blur-sm"
+          aria-busy="true"
+          aria-live="polite"
+          role="alertdialog"
+          aria-label="Signing out"
+        >
+          <div className="wave-loader" />
+          <p className="text-sm font-medium text-foreground">Signing out…</p>
+        </div>
+      )}
       {/* Mobile toggle */}
       <button
         className="glass glass-blur fixed left-4 top-4 z-50 rounded-lg p-2 lg:hidden"

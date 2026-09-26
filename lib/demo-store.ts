@@ -70,7 +70,7 @@ function seed(): Store {
   return {
     users: [
       { id: 'u-admin', display_name: 'Ahmed Raza', username: 'admin', email: 'admin@fasttravels.pk', role: 'admin', permission_level: 100, account_status: 'active', password_hash: hashPassword('admin123') },
-      { id: 'u-mod', display_name: 'Bilal Khan', username: 'moderator', email: 'bilal@fasttravels.pk', role: 'manager', permission_level: 50, account_status: 'active', password_hash: hashPassword('mod123') },
+      { id: 'u-mod', display_name: 'Bilal Khan', username: 'moderator', email: 'bilal@fasttravels.pk', role: 'moderator', permission_level: 50, account_status: 'active', password_hash: hashPassword('mod123') },
       { id: 'u-view', display_name: 'Sana Iqbal', username: 'viewer', email: null, role: 'viewer', permission_level: 10, account_status: 'active', password_hash: hashPassword('view123') },
     ],
     airlines: [

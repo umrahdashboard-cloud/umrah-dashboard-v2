@@ -176,7 +176,7 @@ export function CalculatorClient(props: {
         : ''
 
       const lines: string[] = []
-      lines.push('🏷️ *Amere Taiba International*')
+      lines.push('🏷️ *Umrah Dashboard - Demo*')
       lines.push(`🕋 *${totalNights} Nights Umrah Package*`)
       if (airlineName) lines.push(`🛫 Airline: ${airlineName}`)
       if (paxParts.length > 0) lines.push(`👤 Passengers: ${paxParts.join(', ')}`)
@@ -276,8 +276,8 @@ export function CalculatorClient(props: {
                 <GlassInput type="date" value={s.travel_date} onChange={(e) => set('travel_date', e.target.value)} />
               </Field>
               <NumField label="Adults" value={s.adults} onChange={(n) => set('adults', n)} />
-              <NumField label="Children (2–11)" value={s.children} onChange={(n) => set('children', n)} />
-              <NumField label="Infants (<2)" value={s.infants} onChange={(n) => set('infants', n)} />
+              <NumField label="Children (2–11 Years)" value={s.children} onChange={(n) => set('children', n)} />
+              <NumField label="Infants (<2 Years)" value={s.infants} onChange={(n) => set('infants', n)} />
             </div>
           </GlassCard>
 

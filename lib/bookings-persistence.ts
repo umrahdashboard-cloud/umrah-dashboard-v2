@@ -1,6 +1,53 @@
 import { store, uid } from './demo-store'
 import type { Booking, Payment } from './types'
 
+const SUPABASE_QUERY_TIMEOUT_MS = 5000
+
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Supabase query timeout')), ms)
+      }),
+    ])
+  } finally {
+    if (timer) clearTimeout(timer)
+  }
+}
+
+/** Load bookings/payments from Supabase with a short timeout, then merge with the local demo store. */
+export async function fetchMergedBookingsAndPayments(): Promise<{
+  bookings: Booking[]
+  payments: Payment[]
+}> {
+  let dbBookings: Booking[] = []
+  let dbPayments: Payment[] = []
+
+  try {
+    const { createClient } = await import('./supabase/server')
+    const supabase = await createClient()
+    const [bookingsRes, paymentsRes] = await withTimeout(
+      Promise.all([
+        supabase.from('bookings').select('*'),
+        supabase.from('payments').select('*'),
+      ]),
+      SUPABASE_QUERY_TIMEOUT_MS,
+    )
+    dbBookings = (bookingsRes.data ?? []) as Booking[]
+    dbPayments = (paymentsRes.data ?? []) as Payment[]
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error)
+    console.warn('[bookings] Supabase fetch failed, using local store:', msg)
+  }
+
+  return {
+    bookings: mergeBookings(dbBookings),
+    payments: mergePayments(dbPayments),
+  }
+}
+
 export function isSupabaseUnavailableError(message: string): boolean {
   const m = message.toLowerCase()
   return m.includes('fetch failed') || m.includes('connect timeout') || m.includes('network')

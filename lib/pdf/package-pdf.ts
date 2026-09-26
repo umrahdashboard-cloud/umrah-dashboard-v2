@@ -135,13 +135,14 @@ export async function downloadPackagePdf(
     // Advance Paid
     page.drawRectangle({ x: 40, y: y - 50, width: (width - 80) / 2 - 5, height: 50, color: lightGray })
     page.drawText('ADVANCE PAID', { x: 50, y: y - 15, size: 8, font: bold, color: gray })
-    page.drawText('PKR 0', { x: 50, y: y - 35, size: 14, font: bold, color: darkText })
+    page.drawText(`PKR ${fmt(cost.advance_pkr || 0)}`, { x: 50, y: y - 35, size: 14, font: bold, color: darkText })
 
     // Remaining Balance
     page.drawRectangle({ x: 40 + (width - 80) / 2 + 5, y: y - 50, width: (width - 80) / 2 - 5, height: 50, color: lightGray })
 
     page.drawText('REMAINING BALANCE', { x: 40 + (width - 80) / 2 + 15, y: y - 15, size: 8, font: bold, color: gray })
-    page.drawText(`PKR ${fmt(cost.total_selling_pkr || 0)}`, { x: 40 + (width - 80) / 2 + 15, y: y - 35, size: 14, font: bold, color: primaryColor })
+    const remainingPkr = Math.max(0, cost.remaining_pkr ?? cost.total_selling_pkr - (cost.advance_pkr || 0))
+    page.drawText(`PKR ${fmt(remainingPkr)}`, { x: 40 + (width - 80) / 2 + 15, y: y - 35, size: 14, font: bold, color: primaryColor })
 
     y -= 75
 
