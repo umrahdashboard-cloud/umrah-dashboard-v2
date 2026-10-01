@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import {
   LayoutDashboard, Calculator, BookOpen, FileText, Wallet,
-  Receipt, TicketCheck, Settings, LogOut, Plane, Menu, X, Moon, Sun, ChevronLeft, ChevronRight,
+  BarChart3, TicketCheck, Settings, LogOut, Plane, Menu, X, Moon, Sun, ChevronLeft, ChevronRight,
 } from 'lucide-react'
 import { useState, useEffect, useTransition } from 'react'
 import { cn } from '@/lib/utils'
@@ -22,6 +22,7 @@ const NAV = [
   { href: '/bookings', label: 'Bookings', icon: BookOpen, roles: ['admin', 'moderator', 'viewer'] },
   { href: '/invoices', label: 'Invoices', icon: FileText, roles: ['admin', 'moderator', 'viewer'] },
   { href: '/accounts', label: 'Accounts', icon: Wallet, roles: ['admin', 'moderator', 'viewer'] },
+  { href: '/reports', label: 'Reports', icon: BarChart3, roles: ['admin', 'moderator', 'viewer'] },
   { href: '/hotel-vouchers', label: 'Hotel Vouchers', icon: TicketCheck, roles: ['admin', 'moderator', 'viewer'] },
   { href: '/settings', label: 'Master Settings', icon: Settings, roles: ['admin'] },
 ] as const
